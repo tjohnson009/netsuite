@@ -23,3 +23,13 @@ function showSupportFrequency() {
     alert('Support frequency: ' + supportFreq + ' and internalID: ' + internalID)
 }
 
+function fieldChanged(type, name, linenum) {
+    if (name === 'email') {
+        if (!supportEmail) {
+          nlapiSetFieldValue("custentity_sdr_support_email", nlapiGetFieldValue("email"), false);
+        }
+    }
+}
+
+
+
