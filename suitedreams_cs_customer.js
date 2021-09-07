@@ -24,12 +24,50 @@ function showSupportFrequency() {
 }
 
 function fieldChanged(type, name, linenum) {
+    var supportEmail = nlapiGetFieldValue("custentity_sdr_support_email");
     if (name === 'email') {
         if (!supportEmail) {
           nlapiSetFieldValue("custentity_sdr_support_email", nlapiGetFieldValue("email"), false);
         }
     }
+
+    if (name === 'custentity_sdr_apply_coupon') {
+        var applyCouponStatus = nlapiGetFieldValue('custentity_sdr_apply_coupon');
+        if (applyCouponStatus === 'T') {
+            nlapiDisableField('custentity_sdr_coupon_code', false);
+        } else {
+            nlapiDisableField('custentity_sdr_coupon_code', true);
+            nlapiSetFieldValue('custentity_sdr_coupon_code', '', false);
+        }
+    }
 }
 
+function saveRecord() {
+    var couponCode = nlapiGetFieldValue('custentity_sdr_coupon_code'); 
+    var applyCouponStatus = nlapiGetFieldValue('custentity_sdr_apply_coupon');
+    if (applyCouponStatus === 'T') {
+        if (couponCode.length !== 5) {
+            alert('This coupon code is not the correct length and therefore invalid. Please try again.'); 
+            return false; 
+        }
+    }
+        return true; 
+}
+
+function validateField(type, name, linenum) {
+    if (name === "custentity_sdr_coupon_code") {
+      var applyCouponStatus = nlapiGetFieldValue("custentity_sdr_apply_coupon");
+      var couponCode = nlapiGetFieldValue("custentity_sdr_coupon_code");
+      if (applyCouponStatus === "T") {
+        if (!couponCode.length) {
+          return true;
+        } else if (couponCode.length !== 5) {
+          alert("You need 5 characters for a valid coupon code...");
+          return false;
+        }
+      }
+    }
+    return true;
+}
 
 
