@@ -63,3 +63,25 @@ function validateLineRecord(type) {
         }
     }
 }
+
+function createSalesOrder() {
+  var salesOrder = nlapiCreateRecord('salesorder'); 
+  var recordCustomerID = nlapiGetRecordId(); 
+  
+  salesOrder.setFieldValue('entity', recordCustomerID); 
+  salesOrder.selectNewLineItem('item'); 
+  salesOrder.setCurrentLineItemValue('item', 'item', 262); 
+  salesOrder.setCurrentLineItemValue('item', 'quantity', 7); 
+  salesOrder.commitLineItem('item'); 
+  
+  salesOrder.selectNewLineItem('item'); 
+  salesOrder.setCurrentLineItemValue('item', 'item', 263); 
+  salesOrder.setCurrentLineItemValue('item', 'quantity', 2);
+  salesOrder.commitLineItem('item'); 
+  
+  var newSalesOrderID = nlapiSubmitRecord(salesOrder); 
+  
+  var salesOrderURL = nlapiResolveURL('RECORD', 'salesorder', newSalesOrderID, false); 
+
+  window.open(salesOrderURL, '_blank'); 
+}; 
