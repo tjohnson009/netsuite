@@ -17,29 +17,40 @@ function saveRecordCheck(type) {
         } 
     
       //_______________
-      
-      var type = nlapiGetRecordType(); 
-    if (type === 'customer') {
-        var couponCode = nlapiGetFieldValue("custentity_sdr_coupon_code");
-        var supportEmail = nlapiGetFieldValue("custentity_sdr_support_email");
-        nlapiLogExecution("DEBUG", "Support Email", supportEmail);
-        nlapiLogExecution("DEBUG", "Coupon Code", couponCode);
-        return true; 
-    } else {
-    var confirmation = confirm("Click confirm to save changes. Click cancel to comtinue editing."); 
+        
+        var type = nlapiGetRecordType(); 
+        if (type === 'customer') {
+          var couponCode = nlapiGetFieldValue("custentity_sdr_coupon_code");
+          var supportEmail = nlapiGetFieldValue("custentity_sdr_support_email");
+          nlapiLogExecution("DEBUG", "Support Email", supportEmail);
+          nlapiLogExecution("DEBUG", "Coupon Code", couponCode);
+        }
+
+  var context = nlapiGetContext(); // the context of the current record
+  var areYouSureButton = context.getSetting("SCRIPT", "custscript_sdr_areyousure_feature"
+  );
+        
+  if (areYouSureButton === 'T') {
+          var recordType = context.getSetting(
+            "SCRIPT",
+            "custscript_sdr_areyousure_recordtype"
+          );
+    var confirmation = confirm("Click confirm to save changes to this " + recordType + " record. Click cancel to comtinue editing."); 
         if (confirmation) {
             return true; 
         } else {
             return false; 
         }
-    }
+      }
+      return true; 
 }
 
 function pageInitRecord() {
   var numProdPref = nlapiGetLineItemCount(
     "recmachcustrecord_sdr_prod_pref_customer"
   );
-  alert("This customer has " + numProdPref + " product preferences.");
+  // alert("This customer has " + numProdPref + " product preferences.");
+
 }
 
 function lineInitRecord(type) {
@@ -67,21 +78,30 @@ function validateLineRecord(type) {
 function createSalesOrder() {
   var salesOrder = nlapiCreateRecord('salesorder'); 
   var recordCustomerID = nlapiGetRecordId(); 
-  
-  salesOrder.setFieldValue('entity', recordCustomerID); 
-  salesOrder.selectNewLineItem('item'); 
-  salesOrder.setCurrentLineItemValue('item', 'item', 262); 
-  salesOrder.setCurrentLineItemValue('item', 'quantity', 7); 
-  salesOrder.commitLineItem('item'); 
-  
-  salesOrder.selectNewLineItem('item'); 
-  salesOrder.setCurrentLineItemValue('item', 'item', 263); 
-  salesOrder.setCurrentLineItemValue('item', 'quantity', 2);
-  salesOrder.commitLineItem('item'); 
-  
-  var newSalesOrderID = nlapiSubmitRecord(salesOrder); 
-  
-  var salesOrderURL = nlapiResolveURL('RECORD', 'salesorder', newSalesOrderID, false); 
+  var searchFilters = [
+    new nlobjSearchFilter(
+      "custrecord_sdr_prod_pref_customer",
+      null,
+      "anyof",
+      recordCustomerID
+    ),
+  ]; 
+  var searchResults = mlapiSearchRecord("customrecord_sdr_prod_pref", 'customsearch_sdr_get_all_prod_pref', searchFilters);
 
-  window.open(salesOrderURL, '_blank'); 
+  for (var i in searchResults) {
+    var itemID = searchResults[i].getValue("custrecord_sdr_prod_pref_item"); 
+    var itemQty = searchResults[i].getValue("custrecord_sdr_prod_pref_qty"); 
+      
+      salesOrder.selectNewLineItem("item");
+      salesOrder.setCurrentLineItemValue("item", "item", itemID);
+      salesOrder.setCurrentLineItemValue("item", "quantity", itemQty);
+      salesOrder.commitLineItem("item"); 
+    
+      
+      var newSalesOrderID = nlapiSubmitRecord(salesOrder); 
+      
+      var salesOrderURL = nlapiResolveURL('RECORD', 'salesorder', newSalesOrderID, false); 
+      
+      window.open(salesOrderURL, '_blank'); 
+    }
 }; 
