@@ -1,4 +1,14 @@
 function saveRecordCheck(type) {
+  // try { 
+  //   nlapiLoadRecord('', 999); 
+  // } catch (e) {
+  //   if (e instanceof nlobjError) {
+  //     alert(e.getCode(), e.getDetails());
+  //   } else {
+  //     alert(e.message);
+  //   }
+  //   return false;
+  // }
     var numProdPref = nlapiGetLineItemCount(
     "recmachcustrecord_sdr_prod_pref_customer"
   );
@@ -43,6 +53,7 @@ function saveRecordCheck(type) {
         }
       }
       return true; 
+
 }
 
 function pageInitRecord() {

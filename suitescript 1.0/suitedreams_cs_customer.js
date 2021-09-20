@@ -51,7 +51,24 @@ function saveRecord() {
             return false; 
         }
     }
-        return true; 
+    var suiteletURL = nlapiResolveURL(
+                  "SUITELET",
+                  "customscript_sdr_sl_validate_coupon_code",
+                  "customdeploy_sdr_sl_validate_coupon_code"
+                );
+    
+    var arrParams = {
+        custparam_sdr_coupon_code: couponCode
+    }; 
+
+    var response = nlapiRequestURL(suiteletURL, arrParams); 
+        
+    if (response.getBody() === 'F') {
+        alert('This coupon code is not recognized.'); 
+        return false; 
+    } 
+    return true; 
+        
 }
 
 function validateField(type, name, linenum) {

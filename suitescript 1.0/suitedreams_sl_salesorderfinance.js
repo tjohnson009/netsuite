@@ -32,7 +32,7 @@ var fieldOrderID = form.addField('custpage_sdr_order_id', 'text');
     var orderID = request.getParameter('custparam_sdr_order_id'); 
     fieldOrderID.setDefaultValue(orderID); 
     fieldOrderID.setDisplayType('hidden'); 
-
+  
   form.addSubmitButton("Submit Financing");
 
   form.setScript("customscript_sdr_cs_salesorder_finance");
@@ -42,11 +42,18 @@ var fieldOrderID = form.addField('custpage_sdr_order_id', 'text');
       var orderID = request.getParameter("custpage_sdr_order_id");
       var financingPrice = request.getParameter('custpage_sdr_financing_price'); 
 
-      var salesOrderRecord = nlapiLoadRecord('salesorder', orderID); 
-
-      salesOrderRecord.setFieldValue("custbody_sdr_financing_price", financingPrice);
-
-      nlapiSubmitRecord(salesOrderRecord);
+	nlapiSubmitField(
+    "salesorder",
+    orderID,
+    "custbody_sdr_financing_price",
+    financingPrice
+  );
+  
+  nlapiLogExecution(
+    "DEBUG",
+    "Remaining Usage",
+    nlapiGetContext().getRemainingUsage()
+  );
       
       nlapiSetRedirectURL('RECORD', 'salesorder', orderID, 'false'); 
   }
