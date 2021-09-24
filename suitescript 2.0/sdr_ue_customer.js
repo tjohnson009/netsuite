@@ -22,4 +22,3 @@ define(function() {
     }
 }); 
 
-// ss2extend083121TJ@netsuite.com

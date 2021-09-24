@@ -94,5 +94,3 @@ function getProductPreferences() {
   }
   // var stop = 0; // for debugging only
 }
-
-// ss1extend083121TJ@netsuite.com
