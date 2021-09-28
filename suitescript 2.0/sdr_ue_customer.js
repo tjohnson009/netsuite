@@ -5,6 +5,17 @@
 
 define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
     return {
+        beforeSubmit: function(context) {
+            var customer = context.newRecord; 
+
+            // if (context.type === context.UserEventType.CREATE) {
+            var salesRep = customer.getValue('salesrep'); 
+            if (!salesRep) {
+                throw 'Save failure. Ensure sales rep field is occupied.'
+            }
+            // }
+        },
+
         afterSubmit: function(context) {
             // log.debug('Hello world!'); 
             var customer = context.newRecord; 
@@ -46,6 +57,37 @@ define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
               subject: "WELCOME TO SUITESCRIPT!",
               body: 'Do not worry! This is suitescript!'
             });
+
+        var event = record.create({
+            type: record.Type.CALENDAR_EVENT, 
+            isDynamic: true
+        }); 
+
+        event.setValue('title', 'Welcome conversation with ' + customerName); 
+        event.setValue('sendemail', true); 
+        event.setValue('company', customer.id); 
+
+        event.selectNewLine({
+          sublistId: "attendee",
+        });
+        event.setCurrentSublistValue({
+            sublistId: 'attendee', 
+            fieldId: 'attendee', 
+            value: customer.id
+        }); 
+        event.commitLine({sublistId: 'attendee'}); 
+        
+        event.selectNewLine({
+          sublistId: "attendee",
+        });
+        event.setCurrentSublistValue({
+          sublistId: "attendee",
+          fieldId: "attendee",
+          value: salesRep,
+        });
+        event.commitLine({ sublistId: "attendee" }); 
+
+        event.save(); 
         }
     }
 }); 
