@@ -3,11 +3,11 @@
  * @NApiVersion 2.0
  */
 
-define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
+define(['N/record', 'N/email', 'N/runtime', 'N/task'], function(record, email, runtime, taskModule) {
     return {
         beforeSubmit: function(context) {
             var customer = context.newRecord; 
-
+            
             // if (context.type === context.UserEventType.CREATE) {
             var salesRep = customer.getValue('salesrep'); 
             if (!salesRep) {
@@ -15,7 +15,7 @@ define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
             }
             // }
         },
-
+        
         afterSubmit: function(context) {
             // log.debug('Hello world!'); 
             var customer = context.newRecord; 
@@ -66,7 +66,7 @@ define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
         event.setValue('title', 'Welcome conversation with ' + customerName); 
         event.setValue('sendemail', true); 
         event.setValue('company', customer.id); 
-
+        
         event.selectNewLine({
           sublistId: "attendee",
         });
@@ -88,6 +88,18 @@ define(['N/record', 'N/email', 'N/runtime'], function(record, email, runtime) {
         event.commitLine({ sublistId: "attendee" }); 
 
         event.save(); 
+        
+        var customerInternalID = customer.id; 
+        var mrScript = taskModule.create({
+          taskType: taskModule.TaskType.MAP_REDUCE,
+          scriptId: 97,
+          deploymentId: "customdeploy_sdr_mr_payment_report",
+          params: {
+            custscript_sdr_mr_cust_internal_id_: customerInternalID,
+          },
+        }); 
+            
+            mrScript.submit(); 
         }
     }
 }); 
