@@ -57,37 +57,37 @@ define(['N/record', 'N/email', 'N/runtime', 'N/task'], function(record, email, r
               subject: "WELCOME TO SUITESCRIPT!",
               body: 'Do not worry! This is suitescript!'
             });
-
-        var event = record.create({
-            type: record.Type.CALENDAR_EVENT, 
-            isDynamic: true
-        }); 
-
-        event.setValue('title', 'Welcome conversation with ' + customerName); 
-        event.setValue('sendemail', true); 
-        event.setValue('company', customer.id); 
         
-        event.selectNewLine({
-          sublistId: "attendee",
-        });
-        event.setCurrentSublistValue({
-            sublistId: 'attendee', 
-            fieldId: 'attendee', 
-            value: customer.id
-        }); 
-        event.commitLine({sublistId: 'attendee'}); 
+        // var event = record.create({
+        //     type: record.Type.CALENDAR_EVENT, 
+        //     isDynamic: true
+        // }); 
         
-        event.selectNewLine({
-          sublistId: "attendee",
-        });
-        event.setCurrentSublistValue({
-          sublistId: "attendee",
-          fieldId: "attendee",
-          value: salesRep,
-        });
-        event.commitLine({ sublistId: "attendee" }); 
+        // event.setValue('title', 'Welcome conversation with ' + customerName); 
+        // event.setValue('sendemail', true); 
+        // event.setValue('company', customer.id); 
+        
+        // event.selectNewLine({
+        //   sublistId: "attendee",
+        // });
+        // event.setCurrentSublistValue({
+        //     sublistId: 'attendee', 
+        //     fieldId: 'attendee', 
+        //     value: customer.id
+        // }); 
+        // event.commitLine({sublistId: 'attendee'}); 
+        
+        // event.selectNewLine({
+        //   sublistId: "attendee",
+        // });
+        // event.setCurrentSublistValue({
+        //   sublistId: "attendee",
+        //   fieldId: "attendee",
+        //   value: salesRep,
+        // });
+        // event.commitLine({ sublistId: "attendee" }); 
 
-        event.save(); 
+        // event.save(); 
         
         var customerInternalID = customer.id; 
         var mrScript = taskModule.create({
