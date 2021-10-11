@@ -3,7 +3,7 @@
  * @NApiVersion 2.0
  */
 
-define(function() {
+define(['N/https', 'N/url'], function(https, url) {
     function pageInit(context) {
         var customerRecord = context.currentRecord; 
         var numProdPref = customerRecord.getLineCount({
@@ -68,25 +68,43 @@ define(function() {
                 alert('The total number of product preferences exceeds the limit of 25!'); 
                 return false; 
             }
+        
+        if (applyCoupon && couponCode) {
+            var restletURL = url.resolveScript({
+              scriptId: "customscript_sdr_validate_coupon_code",
+              deploymentId: "customdeploy_sdr_validate_coupon_code",
+            });
 
-        if (applyCoupon && parseInt(couponCode.length) !== 5) {
-            alert('Invalid coupon code: Must be 5 characters in length'); 
-            return false; 
-        }
-        return true; 
+            var response = https.get({
+                url: restletURL + '&custparam_couponcode=' + couponCode
+            }); 
+
+            if (response.body == 'invalid') {
+                alert('Invalid coupon code, please try again.'); 
+                return false; 
+            }
+            
+            // if (applyCoupon && parseInt(couponCode.length) !== 5) {
+                //     alert('Invalid coupon code: Must be 5 characters in length'); 
+                //     return false; 
+                // }
+            }
+                return true; 
     }
 
     function validateField(context) {
-        if (context.fieldId === "custentity_sdr_coupon_code") {
-        var record = context.currentRecord; 
-        var applyCoupon = record.getValue("custentity_sdr_apply_coupon");
-        var couponCode = record.getValue("custentity_sdr_coupon_code");
+        // if (context.fieldId === "custentity_sdr_coupon_code") {
+        // var record = context.currentRecord; 
+        // var applyCoupon = record.getValue("custentity_sdr_apply_coupon");
+        // var couponCode = record.getValue("custentity_sdr_coupon_code");
+                
+        //         if (applyCoupon && parseInt(couponCode.length) !== 5) {
+        //           alert("Invalid coupon code: Must be 5 characters in length");
+        //           return false;
+        //         } 
+        //     }
 
-                if (applyCoupon && parseInt(couponCode.length) !== 5) {
-                  alert("Invalid coupon code: Must be 5 characters in length");
-                  return false;
-                } 
-            }
+        
         return true;
     }
 
@@ -110,7 +128,7 @@ define(function() {
         fieldChanged: fieldChanged, 
         saveRecord: saveRecord, 
         pageInit: pageInit, 
-        validateField: validateField, 
+        // validateField: validateField, 
         validateLine: validateLine, 
         lineInit: lineInit
     }
