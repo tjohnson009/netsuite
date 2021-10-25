@@ -12,20 +12,20 @@
 
    <!-- style -->
    <link href="${dep.styleCss}" rel="stylesheet" type="text/css">
-
+   
    <!-- bootstrap -->
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550514&c=NLCORP&h=aa81121a15617a7d4e76&_xt=.css" rel="stylesheet" type="text/css">
-
+   <link href="${dep.bootstrapCss}" rel="stylesheet" type="text/css">
+   
    <!-- responsive -->
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550518&c=NLCORP&h=8a7f374725c8a5b18c18&_xt=.css" rel="stylesheet" type="text/css">
-
+   <link href="${dep.responsiveCss}" rel="stylesheet" type="text/css">
+   
    <!-- font-awesome -->
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550511&c=NLCORP&h=22e24611dc74e3dd5872&_xt=.css" rel="stylesheet" type="text/css">
-
+   <link href="${dep.fontAwesomeCss}" rel="stylesheet" type="text/css">
+   
    <!-- font-awesome -->
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550510&c=NLCORP&h=76d270e8383dd1815e63&_xt=.css" rel="stylesheet" type="text/css">
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550512&c=NLCORP&h=b805513c1fb0bcc8ccfa&_xt=.css" rel="stylesheet" type="text/css">
-   <link href="https://system.netsuite.com/core/media/media.nl?id=79550522&c=NLCORP&h=8f10937c6595105dea35&_xt=.css" rel="stylesheet" type="text/css">
+   <link href="${dep.set2Css}" rel="stylesheet" type="text/css">
+   <link href="${dep.normalizeCss}" rel="stylesheet" type="text/css">
+   <link href="${dep.componentCss}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -70,7 +70,7 @@
                <#list serviceItems as serviceItem>
                <li>
                   <figure class="effect-oscar">
-                     <img src="${serviceItem.storeddisplayimage@url}" alt="" class="img-responsive" />
+                     <img src="${serviceItem.storedisplayimage@url}" alt="" class="img-responsive" />
                      <figcaption>
                         <h2>${serviceItem.itemid}</h2>
                         <p>${serviceItem.storedescription}</p>
@@ -80,7 +80,7 @@
                </li>
                </#list>
 
-               <li>
+               <!-- <li>
                   <figure class="effect-oscar">
                      <img src="images/home-images/image-4.jpg" alt="" class="img-responsive" />
                      <figcaption>
@@ -89,14 +89,14 @@
                         <a href="#">View more</a>
                      </figcaption>
                   </figure>
-               </li>
+               </li> -->
             </ul>
          </section>
 
          <!-- Right Column Entries -->
          <section class="col-xs-12 col-sm-6 col-md-6 col-lg-6 grid">
             <ul class="grid-lod effect-2" id="grid">
-               <li>
+               <!-- <li>
                   <figure class="effect-oscar">
                      <img src="images/home-images/image-3.jpg" alt="" class="img-responsive" />
                      <figcaption>
@@ -115,7 +115,7 @@
                         <a href="#">View more</a>
                      </figcaption>
                   </figure>
-               </li>
+               </li> -->
             </ul>
          </section>
          <div class="clearfix"></div>
@@ -146,24 +146,24 @@
 
    </footer>
    <!-- footer -->
-
+   
    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-   <script src="js/jquery.min.js" type="text/javascript"></script>
-
+   <script src="${dep.jqueryJs}" type="text/javascript"></script>
+   
    <!-- custom -->
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550523&c=NLCORP&h=91450fd1e1869eac614a&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550517&c=NLCORP&h=3a91b2c8e603815fd0d1&_xt=.js" type="text/javascript"></script>
-
+   <script src="${dep.navJs}" type="text/javascript"></script>
+   <script src="{dep.customJs}" type="text/javascript"></script>
+   
    <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550521&c=NLCORP&h=f3867c44e6eb614344db&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550519&c=NLCORP&h=1fcb43ae5e8808809dc0&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550525&c=NLCORP&h=50137f2130c4bd6394d6&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550520&c=NLCORP&h=fa63a8a9a118ddb7b5fd&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550513&c=NLCORP&h=19768c1fc213066980e1&_xt=.js" type="text/javascript"></script>
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550515&c=NLCORP&h=c342c756aefb865c9c98&_xt=.js"></script>
-
+   <script src="${dep.bootstrapJs}" type="text/javascript"></script>
+   <script src="${dep.masonryJs}" type="text/javascript"></script>
+   <script src="${dep.imagesJs}" type="text/javascript"></script>
+   <script src="${dep.classieJs}" type="text/javascript"></script>
+   <script src="${dep.animOnScrollJs}" type="text/javascript"></script>
+   <script src="${dep.modernizrJs}"></script>
+   
    <!-- jquery.countdown -->
-   <script src="https://system.netsuite.com/core/media/media.nl?id=79550524&c=NLCORP&h=bcab33d897dab800fa01&_xt=.js" type="text/javascript"></script>
+   <script src="${dep.html5ShivJs}" type="text/javascript"></script>
 
 </body>
 

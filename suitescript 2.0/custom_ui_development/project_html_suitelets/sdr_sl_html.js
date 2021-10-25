@@ -21,7 +21,7 @@ define(["N/file", "N/render", "N/search"], function (file, render, search) {
           var itemSearch = search.create({ //creating a search
             type: search.Type.SERVICE_ITEM,
             filters: [["parent", search.Operator.ANYOF, "@NONE@"]],
-            columns: [['itemid', 'storeddisplayimage', 'storedescription']]
+            columns: ['itemid', 'storedisplayimage', 'storedescription']
           });
 
           var searchResults = itemSearch.run().getRange(0, 1000); 
@@ -76,7 +76,7 @@ define(["N/file", "N/render", "N/search"], function (file, render, search) {
             alias: 'dep', 
             data: dependencies
          }); 
-
+         
          var renderedPage = pageRenderer.renderAsString();
 
         response.write(renderedPage);  
