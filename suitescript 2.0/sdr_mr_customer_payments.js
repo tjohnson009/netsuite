@@ -14,8 +14,7 @@ define(["N/record",], function (record) {
       var searchFilters = [
                 ['type', search.Operator.ANYOF, 'CustPymt'], 'and',
                ['mainline', search.Operator.IS, true], 'and',
-               ['entity', search.Operator.ANYOF, customerId]
-      
+               ['entity', search.Operator.ANYOF, customerId]    
       ]; 
 
       var paymentSearch = search.create({

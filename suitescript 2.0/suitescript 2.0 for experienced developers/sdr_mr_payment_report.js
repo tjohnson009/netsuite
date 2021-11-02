@@ -15,7 +15,7 @@ define(["N/search"], function(search) {
     map: function(context) {
         var searchResult = JSON.parse(context.value); 
 
-        Response.write({
+        response.write({
             key: searchResult.values.statusRef.value, 
             value: searchResult.values.value
         })
